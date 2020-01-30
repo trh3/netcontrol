@@ -1,7 +1,18 @@
-####Control Simulation Functions
 
-library(MASS)
 
+#' Compute a single timestep of a linear time invariant system with white noise disturbances and measurement error.
+#'
+#' @param x x_t, a n length vector of observations
+#' @param A An n by n matrix of system coefficients 
+#' @param B An n by matrix of control-to-node mapping coefficients
+#' @param u An m length vector of control inputs
+#' @param theta A positive definite covariance matrix for white noise disturbances
+#' @param gamma A positive definite covariance matrix for white noise measurement error
+#'
+#' @return A list with x: a vector of the states at t+1, and y: a vector of the observations at t+1
+#' @export
+#'
+#' @examples
 control_step <- function(x, A, B, u, theta = NA, gamma = NA){
 
   x_t1 = A %*% x + B %*% u
@@ -22,6 +33,27 @@ control_step <- function(x, A, B, u, theta = NA, gamma = NA){
 
 }
 
+#' Simulate the trajectory of a linear time invariant system with white noise disturbances and measurement error, subject to control inputs.
+#'
+#' @param t_max The number of time points to simulate.
+#' @param x_0 The starting values for the state vector.
+#' @param B An n by matrix of control-to-node mapping coefficients
+#' @param u An m length vector of control inputs
+#' @param theta A positive definite covariance matrix for white noise disturbances
+#' @param gamma A positive definite covariance matrix for white noise measurement error
+#' @param G_seq A single Kalman gain matrix, or a sequence of Kalman gain matrices.
+#' @param J_func A quadratic regulator cost function.
+#' @param S The S matrix.
+#' @param Q_seq A single Q matrix or a sequence of Q matrices
+#' @param R_seq A single R matrix of a sequence of R matrices
+#' @param delta For saturated inputs, a length 2 vector of the threshold at which the input is saturated, and the value of a saturated input. NA for no saturated inputs
+#' @param d_nosign Logical, if inputs are saturated, should the saturation only occur for positive inputs.
+#' @param d_toggle Logical, if inputs are saturated, should the input be a step function. (0 unless it exceeds the saturation point.)
+#'
+#' @return A list with state values, observation values, control input values and cost function values for 1:t_max timepoints.
+#' @export
+#'
+#' @examples
 control_traj <- function(t_max, x_0, A, B, theta, gamma, G_seq, J_func, S, Q_seq, R_seq, delta = NA, d_nosign = F, d_toggle = F){
 
 
@@ -73,6 +105,19 @@ control_traj <- function(t_max, x_0, A, B, theta, gamma, G_seq, J_func, S, Q_seq
 
 }
 
+#' Recursively solve the Riccati equations
+#'
+#' @param A 
+#' @param S 
+#' @param B 
+#' @param Q_seq 
+#' @param R_seq 
+#' @param tmax 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 S_seq_calc <- function(A, S, B, Q_seq, R_seq, tmax){
 
   S_seq = list()
@@ -98,6 +143,7 @@ perf_index <- function(x, S_i){
 }
 
 G_seq_calc <- function(S_seq, R_seq, A, B, t_max){
+  
   G_seq = list()
   for(i in (t_max-1):1){
     if(is.matrix(R_seq)){R = R_seq}else{R = R_seq[[i]]}

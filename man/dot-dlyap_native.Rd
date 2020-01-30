@@ -11,6 +11,9 @@
 
 \item{W}{}
 }
+\value{
+
+}
 \description{
 Discrete Lyapunov Equation Solver, base R implementation
 }

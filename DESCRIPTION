@@ -1,15 +1,16 @@
 Package: netcontrol
 Type: Package
-Title: What the package does (short line)
+Title: netcontrol: Control Theory Methods for Networks
 Version: 1.0
 Date: 2019-09-12
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than
-      one line)
-License: What license is it under?
-Imports: Rcpp (>= 1.0.1), Rdpack, Matrix
+Author: Teague R. Henry
+Maintainer: Teague R. Henry <trhenry@email.unc.edu>
+Description: Implementations of various control theory methods for use 
+            in brain and psychological networks. Contains controllability statistics,
+            optimal control algorithms, and various utilities.
+License: MIT
+Imports: Rcpp (>= 1.0.1), Rdpack, Matrix, MASS
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 RdMacros: Rdpack
