@@ -4,10 +4,12 @@
 #' 
 #' @docType package
 #' @author Teague Henry
-#' @import Rcpp RcppArmadillo
+#' @import Rcpp Matrix
 #' @importFrom Rcpp evalCpp
 #' @importFrom Rdpack reprompt
-#' @exportPattern "^[[:alpha:]]+"
+#' @importFrom MASS mvrnorm
+#' @importFrom pracma pinv
+#' @importFrom expm %^%
 #' @useDynLib netcontrol
 #' @name netcontrol
 NULL  

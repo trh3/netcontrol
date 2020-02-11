@@ -31,7 +31,7 @@ control_gramian <-function(A,B, t = NA){
   
   for(i in 1:t){
     
-    gramian = gramian = A%^%t %*% (-W) %*% (t(A))%^%t
+    gramian = expm::'%^%'(A,t) %*% (-W) %*% expm::'%^%'(t(A),t)
     
   }
   }
@@ -44,8 +44,8 @@ control_gramian <-function(A,B, t = NA){
 #' 
 #' A commonly used measure of the overall controllability of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 #'
-#' @param A An n by n matrix.
-#' @param B An n by m matrix.
+#' @param A A \eqn{n x n} matrix.
+#' @param B A \eqn{n x m} matrix.
 #'
 #' @return Trace of the inverse infinite time Gramian.
 #' @export
@@ -58,18 +58,23 @@ control_gramian <-function(A,B, t = NA){
 inv_average_control <- function(A,B){
   
   gramian <- control_gramian(A, B)
-  return(sum(diag(pinv(gramian))))
+  return(sum(diag(pracma::pinv(gramian))))
   
 }
 
-#' Trace of the  Gramian
+#' \code{average_control} - Average controllability as defined by the trace of the Gramian 
 #' 
-#' A commonly used measure of the overall controllability of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
+#' A commonly used measure \insertCite{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol} of the overall controllability of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 #'
-#' @param A An n by n matrix.
-#' @param B An n by m matrix.
+#' @param A A \eqn{n x n} matrix.
+#' @param B A \eqn{n x m} matrix.
 #'
 #' @return Trace of the infinite time Gramian.
+#' 
+#' @references 
+#' 
+#' \insertRef{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}
+#' 
 #' @export
 #'
 #' @examples
@@ -85,12 +90,12 @@ average_control <- function(A, B){
 
 #' Modal Control
 #' 
-#' Calculates the modal control of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
+#' Calculates the modal control \insertCite{hamdanMeasuresModalControllability1989}{netcontrol} of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 #'
-#' @param A An n by n matrix.
-#' @param B An n by m matrix.
+#' @param A A \eqn{n x n} matrix.
+#' @param B A \eqn{n x m} matrix.
 #'
-#' @return An m by n matrix representing the control of the nth mode by the mth control input.
+#' @return A \eqn{m x n} matrix representing the control of the \eqn{n}th mode by the mth control input.
 #' @export
 #'
 #' @examples
@@ -127,13 +132,16 @@ modal_control <- function(A, B){
 #'
 #' @param A An n by n matrix.
 #'
-#' @return A length n vector of modal control centrality measures, representing the overall modal control of each node in the system.
+#' @return A length n vector of modal control centrality measures\insertCite{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}, representing the overall modal control of each node in the system.
 #' @export
+#' 
+#' @references 
+#' \insertRef{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}
 #'
 #' @examples
 #' A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)
 #' 
-#' modal_control_centrality(A, B)
+#' modal_control_centrality(A)
 modal_control_centrality <- function(A){
   
   eig = eigen(A/(1+svd(A)$d[1]))
@@ -156,12 +164,14 @@ modal_control_centrality <- function(A){
 
 #' Average Control Centrality
 #' 
-#' Calculates the modal control centrality of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
+#' Calculates the average control centrality of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 #'
 #' @param A An n by n matrix.
 #'
-#' @return A length n vector of average control centrality measures, representing the overall average control of each node in the system.
+#' @return A length n vector of average control centrality measures \insertCite{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}, representing the overall average control of each node in the system.
 #' @export
+#' @references 
+#' \insertRef{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}
 #'
 #' @examples
 #' A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)

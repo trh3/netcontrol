@@ -10,13 +10,16 @@ ave_control_centrality(A)
 \item{A}{An n by n matrix.}
 }
 \value{
-A length n vector of average control centrality measures, representing the overall average control of each node in the system.
+A length n vector of average control centrality measures \insertCite{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}, representing the overall average control of each node in the system.
 }
 \description{
-Calculates the modal control centrality of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
+Calculates the average control centrality of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 }
 \examples{
 A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)
 
 ave_control_centrality(A)
+}
+\references{
+\insertRef{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}
 }

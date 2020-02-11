@@ -7,15 +7,15 @@
 modal_control(A, B)
 }
 \arguments{
-\item{A}{An n by n matrix.}
+\item{A}{A \eqn{n x n} matrix.}
 
-\item{B}{An n by m matrix.}
+\item{B}{A \eqn{n x m} matrix.}
 }
 \value{
-An m by n matrix representing the control of the nth mode by the mth control input.
+A \eqn{m x n} matrix representing the control of the \eqn{n}th mode by the mth control input.
 }
 \description{
-Calculates the modal control of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
+Calculates the modal control \insertCite{hamdanMeasuresModalControllability1989}{netcontrol} of a system defined by \eqn{x_(t+1) = Ax_(t) + Bu_(t)}.
 }
 \examples{
 A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)

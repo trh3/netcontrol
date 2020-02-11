@@ -3,6 +3,7 @@
 \docType{package}
 \name{netcontrol}
 \alias{netcontrol}
+\alias{netcontrol-package}
 \title{netcontrol}
 \description{
 Description of your package

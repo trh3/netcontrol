@@ -10,7 +10,7 @@ modal_control_centrality(A)
 \item{A}{An n by n matrix.}
 }
 \value{
-A length n vector of modal control centrality measures, representing the overall modal control of each node in the system.
+A length n vector of modal control centrality measures\insertCite{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}, representing the overall modal control of each node in the system.
 }
 \description{
 Calculates the modal control centrality of a system defined by \eqn{x_(t+1) = Ax_(t)}.
@@ -18,5 +18,8 @@ Calculates the modal control centrality of a system defined by \eqn{x_(t+1) = Ax
 \examples{
 A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)
 
-modal_control_centrality(A, B)
+modal_control_centrality(A)
+}
+\references{
+\insertRef{pasqualettiControllabilityMetricsLimitations2014a}{netcontrol}
 }

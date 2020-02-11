@@ -7,9 +7,9 @@
 inv_average_control(A, B)
 }
 \arguments{
-\item{A}{An n by n matrix.}
+\item{A}{A \eqn{n x n} matrix.}
 
-\item{B}{An n by m matrix.}
+\item{B}{A \eqn{n x m} matrix.}
 }
 \value{
 Trace of the inverse infinite time Gramian.

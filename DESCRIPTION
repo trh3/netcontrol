@@ -1,15 +1,15 @@
 Package: netcontrol
 Type: Package
 Title: netcontrol: Control Theory Methods for Networks
-Version: 1.0
-Date: 2019-09-12
+Version: 0.1
+Date: 2020-02-11
 Author: Teague R. Henry
 Maintainer: Teague R. Henry <trhenry@email.unc.edu>
 Description: Implementations of various control theory methods for use 
             in brain and psychological networks. Contains controllability statistics,
             optimal control algorithms, and various utilities.
-License: MIT
-Imports: Rcpp (>= 1.0.1), Rdpack, Matrix, MASS
+License: MIT + file LICENSE
+Imports: Rcpp (>= 1.0.1), Rdpack, Matrix, MASS, pracma, expm
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.0.2
 Encoding: UTF-8

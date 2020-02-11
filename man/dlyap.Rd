@@ -7,15 +7,16 @@
 dlyap(A, W)
 }
 \arguments{
-\item{A}{\eqn{n x n} numerical or complex matrix.}
+\item{A}{\eqn{n x n} numeric or complex matrix.}
 
-\item{W}{\eqn{n x n} numerical or complex matrix.}
+\item{W}{\eqn{n x n} numeric or complex matrix.}
 }
 \value{
 The solution to the above Lyapunov equation.
 }
 \description{
-Computes the solution of \eqn{AXA^T - X + W = 0} using the Barraud 1977 approach, adapted from Datta 2004. This implementation is equivalent to the Matlab implementation of dylap.
+Computes the solution of \eqn{AXA^T - X + W = 0} using the Barraud 1977 approach, adapted from Datta 2004.
+ This implementation is equivalent to the Matlab implementation of dylap.
 }
 \examples{
 A = matrix(c(0,-3,-2,2,-2,1,-1,2,-1), 3,3)
