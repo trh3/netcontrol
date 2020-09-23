@@ -4,9 +4,21 @@
 \alias{control_traj}
 \title{Calculate the trajectory of a discrete linear time invariant system under a given control scheme}
 \usage{
-control_traj(t_max, x_0, A, B, theta = NA, gamma = NA, control_scheme,
-  delta = NA, d_nosign = F, d_toggle = F, upper_bounds = NA,
-  lower_bounds = NA, u_pos = F)
+control_traj(
+  t_max,
+  x_0,
+  A,
+  B,
+  theta = NA,
+  gamma = NA,
+  control_scheme,
+  delta = NA,
+  d_nosign = F,
+  d_toggle = F,
+  upper_bounds = NA,
+  lower_bounds = NA,
+  u_pos = F
+)
 }
 \arguments{
 \item{t_max}{Required. An integer total number of time points to determine the trajectory over}

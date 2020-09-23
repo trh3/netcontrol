@@ -1,0 +1,138 @@
+---
+title: "Getting Started with netcontrol"
+author: "Teague R Henry"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with netcontrol}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(netcontrol)
+```
+
+
+`netcontrol` is an R package that implements various control theory methods for use in analyzing network data. This vignette outlines what is currently implemented in `netcontrol` as well as walks users through a basic control theory implementation.
+
+## Current Features of `netcontrol`
+
+- Final free state optimization of linear quadratic regulators applied to discrete time-invariant linear systems
+- Use of saturated control inputs and bounded state values (CAUTION: Optimization does not take these into account yet, so the control regime would be suboptimal. When saturated inputs/bounded state values are accounted for, this caution statement will be removed.)
+- Calculate controllability Gramian (infinite time horizon or finite)
+- Calculate average controllability, modal controllability, average controllability centrality, and modal controllability centrality.
+
+
+## Controlling a discrete time-invariant linear system (DTIL).
+
+DTIL systems take the following form:
+
+$$ x_{t-1} = \mathbf{A}x_t + \mathbf{B}u_t  $$
+where $x$ is a $p$ length vector of states, $\mathbf{A}$ is a $p \times p$ matrix of system dynamics, $u$ is a $q$ length vector of control inputs, and $\mathbf{B}$ is a $p \times q$ matrix that maps each control value to the states it impacts. If states are not directly observable, there is an additional component to the system:
+
+$$y_t = \mathbf{C}x_t$$
+
+where $y$ is a $k$ length vector of observations and $\mathbf{C}$ $k \times p$ matrix mapping states onto observation values. `netcontrol` currenly does not implement the $\mathbf{C}$ matrix, so this tutorial will assume that $\mathbf{C} = \mathbf{I}_p$.
+
+To begin, let's load in an example $\mathbf{A}$:
+
+```{r}
+set.seed(1234)
+example_A = matrix((rbeta(25, shape1 = 1,1)), 5,5)
+example_A =  solve(diag(rowSums(example_A))) %*% example_A
+```
+
+The matrix `example_A` represents the system dynamics for 5 variables. It was created so that the system is unit-root, which renders it stable unless there are disturbances applied. Now, let us consider the basic control setup where we can independently control all 5 variables. To specify this, we create a $\mathbf{B}$ matrix:
+
+```{r}
+
+example_B = diag(5)
+```
+
+Using that, we can calculate the controllability Gramian:
+
+```{r}
+A_G = control_gramian(example_A, B = example_B)
+
+```
+
+The controllability Gramian is used for a variety of purposes, one being the calculation of average controllability. Here, we can use `ave_control_centrality` to quickly calculate the average controllability centrality for each variable:
+
+```{r}
+
+ave_cont = ave_control_centrality(example_A)
+print(ave_cont)
+
+```
+
+We can also calculate modal controllability centrality in a similar fashion:
+
+```{r}
+mod_cont = modal_control_centrality(example_A)
+
+```
+
+
+## Calculating Optimal Control Inputs
+
+Given $\mathbf{A}$ and $\mathbf{B}$, we can determine the optimal control inputs to minimize a LQR by a specified number of timepoints. To do this, we need to specify the following:
+
+- $t_\text{max}$ the maximum number of timepoints.
+- $\mathbf{S}$ a $p \times p$ final state weighting matrix.
+- $\mathbf{Q}$ (either a $t_\text{max}$ length list of or a single) $p \times p$ intermediate state weighting matrix.
+- $\mathbf{R}$ (either a $t_\text{max}$ length list of or a single) $q \times q$ cost matrix.
+- $x_0$ a $p$ length vector of starting values.
+
+For simplicity's sake, let's specify $\mathbf{S} = \mathbf{Q} = \mathbf{R} = \mathbf{I}_5$, $t_\text{max} = 30$ and $x_0 = \{10, 15, 20, 25, 30\}$
+
+```{r}
+S = Q = R = diag(5)
+t_max = 30
+x_0 = c(10,15,20,25,30)
+```
+
+With this, we can create a _control scheme_, which contains both a Kalman gain matrix sequence used in the closed loop control, and a cost function.
+
+```{r}
+
+cont_scheme = control_scheme_DLI_freestate(t_max, example_A, example_B, S = S, Q_seq = Q, R_seq = R)
+
+```
+
+
+With this control scheme, we can now apply it to a control simulation. This division between control scheme and applying the control scheme is done so that one could test how control schemes optimized on one system's dynamics performs for other systems.
+
+```{r}
+
+final_control = control_traj(t_max, x_0, example_A, example_B, control_scheme = cont_scheme)
+
+```
+
+Then we can plot the variable trajectories:
+
+```{r}
+plot(final_control[[1]][,5], type = "l")
+lines(final_control[[1]][,4])
+lines(final_control[[1]][,3])
+lines(final_control[[1]][,2])
+lines(final_control[[1]][,1])
+
+```
+
+We can also plot the control inputs over time.
+
+```{r}
+plot(final_control[[3]][,5], type = "l")
+lines(final_control[[3]][,4])
+lines(final_control[[3]][,3])
+lines(final_control[[3]][,2])
+lines(final_control[[3]][,1])
+
+```
+
+With that, you have completed a very basic control theory implementation.
