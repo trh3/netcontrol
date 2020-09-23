@@ -23,7 +23,7 @@
 dlyap <- function(A, W){
   
   W = -W
-  Sch_A <-Matrix::Schur(t(A), vectors = T)
+  Sch_A <-Matrix::Schur(t(A), vectors = TRUE)
   
   block_diag = !is.complex(eigen(t(A))$values)
   # From Datta 2004 pg. 275, "Numerical Solutions and Conditioning of Lyapunov and Sylvester Equations"

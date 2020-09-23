@@ -4,7 +4,7 @@
 \alias{LQR}
 \title{Linear Quadratic Regulator}
 \usage{
-LQR(X, U, S, Q_seq, R_seq, eval = T)
+LQR(X, U, S, Q_seq, R_seq, eval = TRUE)
 }
 \arguments{
 \item{X}{A \eqn{t x p} matrix of state values}

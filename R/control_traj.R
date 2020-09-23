@@ -186,7 +186,7 @@ control_traj <- function(t_max, x_0, A, B, theta = NA, gamma = NA, control_schem
 #' 
 #' print(LQR(X,U, S, Q_seq, R_seq)[1:5])
 #' 
-LQR <- function(X, U, S, Q_seq, R_seq, eval = T){
+LQR <- function(X, U, S, Q_seq, R_seq, eval = TRUE){
   
   
   temp_function <- function(X_2, U_2, S_n= S, Q_seq_n = Q_seq, R_seq_n=R_seq){
