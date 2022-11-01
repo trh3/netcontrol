@@ -17,5 +17,5 @@
 #' C <- matrix(c(7, 9, -1, 4, 6, 5, 1, 2, 3), ncol = 3, byrow = TRUE)
 #' X <- clyap(A, C)
 clyap <- function(A, C) {
-    return(clyap(A, C))
+    return(clyap_internal(A, C))
 }
