@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @references
-#' TODO
+#' \insertRef{bartels_solution_1972}{netcontrol}
 #'
 #' @examples
 #' A <- matrix(c(-3, -2, 0, -1, -1, 0, 0, -5, -1), ncol = 3, byrow = TRUE)
